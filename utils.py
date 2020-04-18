@@ -46,10 +46,3 @@ def merge_datasets(path_images_celeba2,path_images_utkface2,path_celeba_csv2,des
             name_writer.writerow([filename, new_file_name])
     # Parte di UTKFace vedere cosa scegliere attento al nome dei file
 
-
-def create_once(dir):
-    created = False
-    if not os.path.exists(dir) and not created:
-        os.makedirs(dir)
-        created = True
-

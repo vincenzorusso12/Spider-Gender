@@ -18,7 +18,7 @@ from PIL import Image
 from PIL import ImageDraw
 from string import Template
 import string
-
+import pandas as pd
 
 def write_list_to_file(guest_list, filename):
     with open(filename, "w",newline="") as csvfile:
@@ -112,12 +112,11 @@ def aggiungi(xcentro, ycentro, rax, xpunto, ypunto, distNaso, coeff, immm):
             volto[indice] = int(volto[indice] + 1)
     except:
         # else:
-        print("ERROOOOOOOREEEEEE------")
-        print("indice ", indice)
+        #print("ERROOOOOOOREEEEEE------")
+        #print("indice ", indice)
 
         # print("xnose ", xnose, " xpunto ", xpunto, " ynose ", ynose , " ypunto " , ypunto)
-
-    return indice
+        return indice
 
 
 def extract_landmarks_4circles_4sectors(land2, basedir2):
@@ -133,7 +132,8 @@ def extract_landmarks_4circles_4sectors(land2, basedir2):
     fette = fetteQ * 4
     s1 = cerchi * fette
     dizionario = [[0 for y in range(s1)] for x in range(2230)]
-    dizionario_str = ['' for xx in range(2230)]
+    #dizionario_str = ['' for xx in range(2230)]
+    dizionario_str_clean = ['' for xx in range(2230)]
     volto = np.zeros(s1)
     ## path immagini
     num_volto = 0
@@ -144,6 +144,10 @@ def extract_landmarks_4circles_4sectors(land2, basedir2):
             ## Vedere come si leggono le immagini
             im2 = os.path.join(base_dir, str(img))
             foto = cv2.imread(im2)
+
+            #print(img)
+
+
 
             volto = zeros(s1)
 
@@ -205,24 +209,38 @@ def extract_landmarks_4circles_4sectors(land2, basedir2):
 
                 # if len(volto)!=1:
                 dizionario[num_volto] = volto
+                dizionario_str_clean[num_volto] = str(img)
 
-            nomeimagine = str(img)
-            nomeimagine = nomeimagine[:15]
-            nomeimagine = nomeimagine[6:]
 
-            dizionario_str[num_volto] = nomeimagine
+
+            #dizionario_str[num_volto] = nomeimagine
 
             num_volto = num_volto + 1
             # if ((num_volto % 200) == 0):
             #    print(num_volto)
 
         # np.trim_zeros(dizionario)
-        # print("dizionario = ", dizionario)
+        #print("dizionario = ", dizionario)
 
     ##Rimuove gli array di zeri allocati in precedenza
     dizionario = [i for i in dizionario if not np.count_nonzero(i) == 0]
-    #print("dizionario = ", dizionario)
-    #print("dizionario_str = ", dizionario_str)
-    # Salvare CSV Dizionario
-    write_list_to_file(dizionario,'landmarks.csv')
+    dizionario_str_clean = list(filter(None, dizionario_str_clean))
+    print("dizionario = ", dizionario)
 
+    #Dataframe Label + Landmarks
+    df = pd.DataFrame()
+    df['nome'] = dizionario_str_clean #15
+    df['landmark'] = dizionario #11
+
+    print(df)
+    print(os.getcwd())
+    df.to_csv('LandmarksWithLabel.csv')
+
+
+def main():
+    print(extract_landmarks_4circles_4sectors(r"C:\Users\vince\Desktop\Progetto FVAB\shape_predictor_68_face_landmarks.dat",
+                            r'C:\Users\vince\Desktop\Progetto FVAB\merged_dataset\images'))
+
+
+if __name__ == "__main__":
+    main()

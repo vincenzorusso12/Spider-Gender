@@ -11,9 +11,11 @@ def unzip(zip,dest):
             zipObj.extractall(dest)
 
 
+#Fa il merge di entrambi oppure solo di CelebA (path UTKFace None)
 def merge_datasets(path_images_celeba2,path_images_utkface2,path_celeba_csv2,dest_path,dest_path_oldnew_csv):
     # Merging parte di CelebA
     # Copia le immagini in merged_dataset\images e crea un file csv dove mappo oldname_newname
+
     with open(path_celeba_csv2) as csv_file, \
             open(os.path.join(dest_path_oldnew_csv, "oldname_newname.csv"), mode='w', newline="") as name_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
@@ -35,14 +37,37 @@ def merge_datasets(path_images_celeba2,path_images_utkface2,path_celeba_csv2,des
                 name_writer.writerow([row[0], new_file_name])
 
                 # Merging parte UTKFace
-        for filename in os.listdir(path_images_utkface2):
-            items = filename.split('_')
-            line_count += 1
-            if (items[1] == "0"):  # in UTKFace 0 è uomo
-                new_file_name = '%06d_1.jpg' % (line_count - 1,)
-            else:
-                new_file_name = '%06d_0.jpg' % (line_count - 1,)
-            shutil.copy(os.path.join(path_images_utkface2, filename), os.path.join(dest_path, new_file_name))
-            name_writer.writerow([filename, new_file_name])
+        if path_images_utkface2 is not None:
+            for filename in os.listdir(path_images_utkface2):
+                items = filename.split('_')
+                line_count += 1
+                if (items[1] == "0"):  # in UTKFace 0 è uomo
+                    new_file_name = '%06d_1.jpg' % (line_count - 1,)
+                else:
+                    new_file_name = '%06d_0.jpg' % (line_count - 1,)
+                shutil.copy(os.path.join(path_images_utkface2, filename), os.path.join(dest_path, new_file_name))
+                name_writer.writerow([filename, new_file_name])
     # Parte di UTKFace vedere cosa scegliere attento al nome dei file
+
+
+#Fa solo merging di UTK FACE
+def merge_utk_only(path_images_utkface2,dest_path_oldnew_csv,dest_path):
+    with open(os.path.join(dest_path_oldnew_csv, "oldname_newname.csv"), mode='w', newline="") as name_file:
+        name_writer = csv.writer(name_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+
+        line_count = 0
+
+        if path_images_utkface2 is not None:
+            for filename in os.listdir(path_images_utkface2):
+                items = filename.split('_')
+                line_count += 1
+                if (items[1] == "0"):  # in UTKFace 0 è uomo
+                    new_file_name = '%06d_1.jpg' % (line_count - 1,)
+                else:
+                    new_file_name = '%06d_0.jpg' % (line_count - 1,)
+                shutil.copy(os.path.join(path_images_utkface2, filename), os.path.join(dest_path, new_file_name))
+                name_writer.writerow([filename, new_file_name])
+
+
+
 

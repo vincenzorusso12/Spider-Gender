@@ -18,7 +18,6 @@ from PIL import Image
 from PIL import ImageDraw
 from string import Template
 import string
-import pandas as pd
 
 def write_list_to_file(guest_list, filename):
     with open(filename, "w",newline="") as csvfile:
@@ -131,10 +130,12 @@ def extract_landmarks_4circles_4sectors(land2, basedir2):
     fetteQ = 4  # fette per quadrante
     fette = fetteQ * 4
     s1 = cerchi * fette
-    dizionario = [[0 for y in range(s1)] for x in range(2230)]
-    #dizionario_str = ['' for xx in range(2230)]
-    dizionario_str_clean = ['' for xx in range(2230)]
+    tot=len(immagini)
+    dizionario = [[0 for y in range(s1)] for x in range(tot)]
+    #dizionario_str = ['' for xx in range(tot)]
+    dizionario_str_clean = ['' for xx in range(tot)]
     volto = np.zeros(s1)
+    print(immagini)
     ## path immagini
     num_volto = 0
     for img in immagini:
@@ -227,15 +228,36 @@ def extract_landmarks_4circles_4sectors(land2, basedir2):
     dizionario_str_clean = list(filter(None, dizionario_str_clean))
     print("dizionario = ", dizionario)
 
-    #Dataframe Label + Landmarks
-    df = pd.DataFrame()
-    df['nome'] = dizionario_str_clean #15
-    df['landmark'] = dizionario #11
 
-    print(df)
-    print(os.getcwd())
-    df.to_csv('LandmarksWithLabel.csv')
 
+    #print(dizionario.shape)
+    print(dizionario)
+
+    print(len(dizionario))
+
+
+    ##Prima di scrivere il csvdevo aggiungere una colonna di label
+
+
+
+
+
+    label_clean = [i[7:-4] for i in dizionario_str_clean ]
+
+    print(len(label_clean))
+
+    for i in range(len(dizionario)):
+        arr=label_clean[i]
+        print('arr '+arr)
+        #print(type(arr))
+        dizionario[i]=np.insert(dizionario[i],0, int(arr), axis=0)
+
+    print(dizionario)
+    savetxt('data.csv', dizionario,fmt='%i', delimiter=',')
+
+
+    #aaa=np.vstack([dizionario_str_clean,dizionario])
+    #print(aaa)
 
 def main():
     print(extract_landmarks_4circles_4sectors(r"C:\Users\vince\Desktop\Progetto FVAB\shape_predictor_68_face_landmarks.dat",

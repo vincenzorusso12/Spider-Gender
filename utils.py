@@ -1,5 +1,9 @@
 import os,shutil,csv
 from zipfile import ZipFile
+from numpy import loadtxt
+from numpy import savetxt
+import numpy as np
+import random
 
 def makedir(dir):
     if not os.path.exists(dir):
@@ -68,6 +72,39 @@ def merge_utk_only(path_images_utkface2,dest_path_oldnew_csv,dest_path):
                 shutil.copy(os.path.join(path_images_utkface2, filename), os.path.join(dest_path, new_file_name))
                 name_writer.writerow([filename, new_file_name])
 
+def extract_male(path_male_female_csv,dest):
+    male_female= loadtxt(path_male_female_csv,delimiter=',')
+    print(type(male_female))
+    #print(male_female)
+    print(male_female.shape)
+    x_new = male_female[male_female[:,0]==1.]#Male
+    savetxt(dest,x_new,fmt='%i',delimiter=',')
 
+def extract_female(path_male_female_csv,dest):
+    male_female= loadtxt(path_male_female_csv,delimiter=',')
+    print(type(male_female))
+    #print(male_female)
+    print(male_female.shape)
+    x_new = male_female[male_female[:,0]==0.]#Female
+    savetxt(dest,x_new,fmt='%i',delimiter=',')
 
+def balance_datasets_random_50_50(path_male,path_female,path_dest):
+    male = loadtxt(path_male, delimiter=',')
+    female = loadtxt(path_female, delimiter=',')
+    n_row_m = np.shape(male)[0]
+    n_row_f = np.shape(female)[0]
+
+    if n_row_f > n_row_m:
+        idx = random.sample(range(n_row_f), n_row_m)
+        female = female[idx, :]
+    else:
+        idx = random.sample(range(n_row_m), n_row_f)
+        male = male[idx, :]
+    n_row_m = np.shape(male)[0]
+    n_row_f = np.shape(female)[0]
+    print(n_row_m)
+    print(n_row_f)
+    total = np.vstack((female, male))
+    print(np.shape(total))
+    savetxt(path_dest, total, fmt='%i', delimiter=',')
 

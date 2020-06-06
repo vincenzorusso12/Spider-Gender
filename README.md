@@ -1,6 +1,10 @@
 # Spider-Gender
-Progetto esame FVAB.
+In this project we are using a Linear SVM Classifier to predict a person gender by using a feature vector generated from a Web Shaped Model.
 
-Some files are missing because of size:
-* The 2 datasets (UTKFace, CelebA)
-* The shape predictor
+![Web Shaped Model](web.PNG)
+
+For further information look at the paper and the PowerPoint presentation.
+
+The datasets used:
+* CelebA: https://www.kaggle.com/jessicali9530/celeba-dataset
+* UTKFace: https://www.kaggle.com/jangedoo/utkface-new

@@ -1,0 +1,103 @@
+1. CelebA Classifier on Full UTKFace
+ 
+[[8053 3350]
+ [4083 7320]]
+              precision    recall  f1-score   support
+
+      female       0.66      0.71      0.68     11403
+        male       0.69      0.64      0.66     11403
+
+    accuracy                           0.67     22806
+   macro avg       0.67      0.67      0.67     22806
+weighted avg       0.67      0.67      0.67     22806
+
+
+MAE 0.3259230027185828
+
+________________________________________________________
+
+2. classificatore addestrato su CelebA con test set UTKFace utilizzato in precedenza
+[[2417 1004]
+ [1222 2199]]
+              precision    recall  f1-score   support
+
+      female       0.66      0.71      0.68      3421
+        male       0.69      0.64      0.66      3421
+
+    accuracy                           0.67      6842
+   macro avg       0.68      0.67      0.67      6842
+weighted avg       0.68      0.67      0.67      6842
+
+
+MAE 0.3253434668225665
+_________________________________________________________
+
+3. classificatore addestrato su UTKFace con test set CelebA intero
+[[56764 29199]
+ [25740 60223]]
+              precision    recall  f1-score   support
+
+      female       0.69      0.66      0.67     85963
+        male       0.67      0.70      0.69     85963
+
+    accuracy                           0.68    171926
+   macro avg       0.68      0.68      0.68    171926
+weighted avg       0.68      0.68      0.68    171926
+
+MAE 0.3195502716284913
+
+___________________________________________________________________
+4. classificatore addestrato su UTKFace con test set CelebA utilizzato in precedenza
+[[2385 1036]
+ [1113 2308]]
+              precision    recall  f1-score   support
+
+      female       0.68      0.70      0.69      3421
+        male       0.69      0.67      0.68      3421
+
+    accuracy                           0.69      6842
+   macro avg       0.69      0.69      0.69      6842
+weighted avg       0.69      0.69      0.69      6842
+
+MAE 0.314089447529962
+_________________________________________________--
+Retrain UTK seed 42
+(22806, 63)
+3421
+3421
+7982
+7982
+[[2385 1036]
+ [1113 2308]]
+              precision    recall  f1-score   support
+
+      female       0.68      0.70      0.69      3421
+        male       0.69      0.67      0.68      3421
+
+    accuracy                           0.69      6842
+   macro avg       0.69      0.69      0.69      6842
+weighted avg       0.69      0.69      0.69      6842
+
+
+MAE 0.314089447529962
+_______________________________
+Retrain CelebA seed 42
+
+(171926, 63)
+25789
+25789
+60174
+60174
+[[18264  7525]
+ [ 8020 17769]]
+              precision    recall  f1-score   support
+
+      female       0.69      0.71      0.70     25789
+        male       0.70      0.69      0.70     25789
+
+    accuracy                           0.70     51578
+   macro avg       0.70      0.70      0.70     51578
+weighted avg       0.70      0.70      0.70     51578
+
+
+MAE 0.3013881887626507

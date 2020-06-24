@@ -1,0 +1,12 @@
+[[56835 29128]
+ [17029 68934]]
+              precision    recall  f1-score   support
+
+      female       0.77      0.66      0.71     85963
+        male       0.70      0.80      0.75     85963
+
+    accuracy                           0.73    171926
+   macro avg       0.74      0.73      0.73    171926
+weighted avg       0.74      0.73      0.73    171926
+
+MAE 0.26847015576468947
